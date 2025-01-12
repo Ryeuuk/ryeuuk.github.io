@@ -8,10 +8,12 @@ document.getElementById('extractButton').addEventListener('click', function () {
 
     if (ips) {
         outputElement.innerText = ips.join('\n');
-        copyButton.classList.remove('hidden');  // Show the Copy button
+        copyButton.classList.remove('hidden');
+        showToast("IPs extracted successfully!", "success");
     } else {
         outputElement.innerText = 'No IPs found.';
-        copyButton.classList.add('hidden');  // Hide the Copy button if no IPs are found
+        copyButton.classList.add('hidden');
+        showToast("No IPs found in the provided text.", "warning");
     }
 });
 
@@ -19,9 +21,33 @@ document.getElementById('copyButton').addEventListener('click', function () {
     const outputText = document.getElementById('output').innerText;
     navigator.clipboard.writeText(outputText)
         .then(() => {
-            alert('IPs copied to clipboard!');
+            showToast("IPs copied to clipboard!", "success");
         })
         .catch(err => {
-            alert('Failed to copy text: ', err);
+            showToast("Failed to copy IPs: " + err, "error");
         });
 });
+
+function showToast(message, type) {
+    let backgroundColor;
+    switch (type) {
+        case "success":
+            backgroundColor = "#28a745";  // Green
+            break;
+        case "warning":
+            backgroundColor = "#ffc107";  // Yellow
+            break;
+        case "error":
+            backgroundColor = "#dc3545";  // Red
+            break;
+    }
+
+    Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top", 
+        position: "right", 
+        backgroundColor: backgroundColor,
+        close: true
+    }).showToast();
+}
