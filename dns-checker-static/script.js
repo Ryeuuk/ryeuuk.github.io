@@ -1,5 +1,3 @@
-// script.js
-
 document.getElementById('dns-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -10,6 +8,7 @@ document.getElementById('dns-form').addEventListener('submit', async (e) => {
     
     // Clear previous result
     output.textContent = 'Loading...';
+    resultDiv.style.display = 'none';  // Hide the result div while loading
 
     try {
         const response = await fetch(`https://dns.google/resolve?name=${domain}&type=${recordType}`);
@@ -21,11 +20,27 @@ document.getElementById('dns-form').addEventListener('submit', async (e) => {
 
         // Display DNS records
         if (data.Answer) {
-            output.textContent = JSON.stringify(data.Answer, null, 2);
+            // Format the result
+            const formattedResult = formatResult(data.Answer);
+            output.innerHTML = formattedResult;
+            resultDiv.style.display = 'block';  // Show result div
         } else {
             output.textContent = 'No records found.';
+            resultDiv.style.display = 'block';
         }
     } catch (error) {
         output.textContent = `Error: ${error.message}`;
+        resultDiv.style.display = 'block';
     }
 });
+
+function formatResult(records) {
+    return records.map(record => {
+        return `
+            <div class="record">
+                <p><strong>Type:</strong> ${record.type}</p>
+                <p><strong>Data:</strong> ${record.data}</p>
+            </div>
+        `;
+    }).join('');
+}
