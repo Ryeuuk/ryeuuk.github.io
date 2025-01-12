@@ -8,10 +8,10 @@ document.getElementById('extractButton').addEventListener('click', function () {
 
     if (ips) {
         outputElement.innerText = ips.join('\n');
-        copyButton.classList.remove('hidden');
+        copyButton.classList.remove('hidden');  // Show the Copy button
     } else {
         outputElement.innerText = 'No IPs found.';
-        copyButton.classList.add('hidden');
+        copyButton.classList.add('hidden');  // Hide the Copy button if no IPs are found
     }
 });
 
