@@ -1,1 +1,39 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DNS Checker to get DNS records by type using Google DNS API">
+    <meta name="author" content="dnsexplorer">
+    <title>DNS Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>DNS Checker</h1>
+        <form id="dns-form">
+            <label for="domain">Domain:</label>
+            <input type="text" id="domain" name="domain" required placeholder="Enter domain">
+            
+            <label for="type">Record Type:</label>
+            <select id="type" name="type" required>
+                <option value="A">A</option>
+                <option value="MX">MX</option>
+                <option value="TXT">TXT</option>
+                <option value="CNAME">CNAME</option>
+                <option value="NS">NS</option>
+            </select>
+            
+            <button type="submit">Get DNS Records</button>
+        </form>
+
+        <div id="result">
+            <h2>DNS Records</h2>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
