@@ -1,4 +1,3 @@
-
 // script.js
 
 document.getElementById('dns-form').addEventListener('submit', async (e) => {
