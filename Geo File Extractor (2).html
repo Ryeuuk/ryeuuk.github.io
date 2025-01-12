@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geo File Extractor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: rgb(20, 20, 20);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      width: 80%;
+      max-width: 800px;
+      background-color: #3368ff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #ffffff;
+    }
+    #output {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    #output h2 {
+      margin: 0;
+      font-size: 16px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .output-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      margin: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    .copy-btn {
+      margin-top: 5px;
+      background-color: #28a745;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+    .notification {
+      position: absolute;
+      bottom: 45px;
+      background-color: #28a745;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .notification-empty {
+      background-color: #dc3545;
+    }
+    .show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body style="background-color: #3368ff;">
+  <div class="container">
+    <h1>Geo File Extractor</h1>
+    <textarea id="textInput" placeholder="Paste your content here..."></textarea>
+    <button style="background-color:#ff3333;" onclick="extractContent()">Extract Content</button>
+
+    <div id="output">
+      <div class="output-section">
+        <h2>Zip Codes</h2>
+        <textarea id="zipCodes" readonly></textarea>
+        <button style="background-color:#ff3333;" class="copy-btn" onclick="copyToClipboard('zipCodes', this, 'zip')">Copy Zip Codes</button>
+        <div class="notification">Copied 😊</div>
+      </div>
+      <div class="output-section">
+        <h2>Cities</h2>
+        <textarea id="cities" readonly></textarea>
+        <button style="background-color:#ff3333;" class="copy-btn" onclick="copyToClipboard('cities', this, 'city')">Copy Cities</button>
+        <div class="notification">Copied 😊</div>
+      </div>
+      <div class="output-section">
+        <h2>States</h2>
+        <textarea id="states" readonly></textarea>
+        <button style="background-color:#ff3333;" class="copy-btn" onclick="copyToClipboard('states', this, 'state')">Copy States</button>
+        <div class="notification">Copied 😊</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function extractContent() {
+      const input = document.getElementById("textInput").value;
+
+      const lines = input.split('\n').map(line => line.trim()).filter(line => line);
+
+      const zipCodes = new Set();
+      const cities = new Set();
+      const states = new Set();
+
+      lines.forEach(line => {
+        if (/^\d{5}$/.test(line)) {
+          zipCodes.add(line);
+        } else if (/^[^,]+,[A-Z]{2}$/.test(line)) {
+          const city = line.split(',')[0].trim();
+          cities.add(city);
+          const state = line.split(',')[1].trim();
+          states.add(state);
+        } else if (/^[^,]+, [A-Z]{2}$/.test(line)) {
+          const city = line.split(',')[0].trim();
+          cities.add(city);
+          const state = line.split(',')[1].trim();
+          states.add(state);
+        }
+      });
+
+      document.getElementById("zipCodes").value = Array.from(zipCodes).join('\n');
+      document.getElementById("cities").value = Array.from(cities).join('\n');
+      document.getElementById("states").value = Array.from(states).join('\n');
+    }
+
+    function copyToClipboard(elementId, button, type) {
+      const textArea = document.getElementById(elementId);
+      const notification = button.nextElementSibling;
+
+      if (textArea.value.trim() === "") {
+        notification.textContent = "There's no results to copy 😑";
+        notification.classList.add("notification-empty", "show");
+
+        setTimeout(() => {
+          notification.classList.remove("show", "notification-empty");
+        }, 800);
+      } else {
+        const count = textArea.value.split('\n').length;
+        textArea.select();
+        document.execCommand("copy");
+
+        notification.textContent = `${count} ${type === 'zip' ? 'Zip Codes' : type === 'city' ? 'Cities' : 'States'} Copied 😊`;
+        notification.classList.remove("notification-empty");
+        notification.classList.add("show");
+
+        setTimeout(() => {
+          notification.classList.remove("show");
+        }, 800);
+      }
+    }
+  </script>
+</body>
+</html>

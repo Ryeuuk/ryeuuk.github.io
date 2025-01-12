@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Sidebar with Toggle</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #3633ff;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+            align-items: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar.hidden {
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo.hidden {
+            opacity: 0;
+        }
+
+        .logo img {
+    width: 50px;
+    height: 50px;
+    margin-top: 50px; /* Pushes the image to the bottom */
+}
+
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .menu {
+            list-style: none;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .menu-item {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background-color: #336bff;
+            border-radius: 5px;
+        }
+
+        .menu-item a {
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        /* Content Area */
+        .content {
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+ .toggle-btn {
+        background-color: #000000;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border-radius: 5px;
+        position: absolute;
+        top: 20px;
+        left: 10px;
+    }
+
+    .sidebar.hidden .toggle-btn {
+        left: 10px;
+        z-index: 1; /* Ensure it stays visible */
+    }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div class="logo" onclick="loadPage('https://calendar.google.com/calendar/embed?src=en.ma%23holiday%40group.v.calendar.google.com')">
+            <img src="support.png" alt="Logo">
+            <div class="logo-text"></div>
+        </div>
+        <ul class="menu">
+
+            <li class="menu-item" onclick="loadPage('file:///C:/Users/mohamed.ki/Desktop/New%20folder%20(4)/menu/MSG%20tk%20support.html')">
+                <i> <span style="font-size: 23px;">✉️</span> <!-- Large --></i><span>messages sms</span>
+            </li>
+            <li class="menu-item" onclick="loadPage('file:///C:/Users/mohamed.ki/Desktop/New%20folder%20(4)/menu/extract%20ips/New%20Text%20Document%20-%20Copy%20(2).html')">
+                <i>🔢</i><span>Comma Separating</span>
+            </li>
+            <li class="menu-item" onclick="loadPage('file:///C:/Users/mohamed.ki/Desktop/New%20folder%20(4)/menu/ptr1122.html')">
+                <i>🧾</i><span>PTR Form</span>
+            </li>
+            <li class="menu-item" onclick="loadPage('file:///C:/Users/mohamed.ki/Desktop/New%20folder%20(4)/menu/Geo%20File%20Extractor%20(2).html')">
+                <i>🌍</i><span>Geo File Extractor</span>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <iframe id="content-frame" src="https://calendar.google.com/calendar/embed?src=en.ma%23holiday%40group.v.calendar.google.com"></iframe>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const logo = document.querySelector('.logo');
+            sidebar.classList.toggle('hidden');
+            logo.classList.toggle('hidden');
+        }
+
+        function loadPage(link) {
+            // Update the iframe source to load the selected page
+            const iframe = document.getElementById('content-frame');
+            iframe.src = link;
+
+            // Update active class
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => item.classList.remove('active'));
+
+            // Set active state for the clicked item
+            const clickedItem = [...menuItems].find(item => item.outerHTML.includes(link));
+            if (clickedItem) {
+                clickedItem.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
