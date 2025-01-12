@@ -11,64 +11,86 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f5f7fa;
-            color: #343a40;
+            background-color: #F5F5F5;
+            color: black;
         }
 
         .card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background-color: #FFFFFF;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* For entry animation */
+            transform: translateY(50px);
         }
 
         .card-header {
-            border-radius: 10px 10px 0 0;
+            border-radius: 12px 12px 0 0;
+            background-color: #7C444F;
+            color: white;
         }
 
         .form-control, .form-select {
-            border-radius: 8px;
+            border-radius: 10px;
+            border: 2px solid #E16A54;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #F39E60;
+            box-shadow: 0 0 8px rgba(243, 158, 96, 0.5);
         }
 
         .btn-primary {
-            background-color: #007bff;
+            background-color: #E16A54;
             border: none;
-            transition: background-color 0.3s ease;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: transform 0.2s ease, background-color 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #F39E60;
+            transform: scale(1.05);
+        }
+
+        .loading, .error {
+            font-weight: bold;
+            text-align: center;
         }
 
         .loading {
-            color: #0d6efd;
-            font-weight: bold;
+            color: #F39E60;
         }
 
         .error {
-            color: #dc3545;
-            font-weight: bold;
+            color: #E16A54;
         }
 
         .record {
             padding: 15px;
             margin-bottom: 15px;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            background-color: #ffffff;
+            border: 1px solid #E16A54;
+            border-radius: 10px;
+            background-color: #FFF5F5;
+            color: black;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            opacity: 0; /* For fade-in animation */
+            transform: translateY(30px);
         }
 
         #result h5 {
             margin-bottom: 20px;
+            color: black;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container mt-5">
-        <div class="card">
-            <div class="card-header bg-primary text-white text-center">
+        <div class="card mx-auto" id="dns-card" style="max-width: 500px;">
+            <div class="card-header text-center">
                 <h2 class="mb-1">DNS Resolver</h2>
-                <p class="mb-0">Lookup DNS records for any domain</p>
+                <p class="mb-0">Quickly lookup DNS records</p>
             </div>
             <div class="card-body p-4">
                 <form id="dns-form">
@@ -101,8 +123,21 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- mo.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
     <script>
         $(document).ready(function () {
+            // Card Entry Animation
+            const card = document.querySelector('#dns-card');
+            const cardAnimation = new mojs.Html({
+                el: card,
+                y: { 50: 0 },
+                opacity: { 0: 1 },
+                duration: 1000,
+                easing: 'cubic.out',
+            }).play();
+
+            // Handle Form Submission
             $('#dns-form').on('submit', function (e) {
                 e.preventDefault();
 
@@ -110,19 +145,28 @@
                 const recordType = $('#type').val();
                 const output = $('#output');
                 const resultDiv = $('#result');
+                const button = $(this).find('button');
 
-                // Validate input
+                // Button Animation
+                new mojs.Html({
+                    el: button[0],
+                    scale: { 1: 1.2 },
+                    duration: 200,
+                    easing: 'cubic.out',
+                }).play();
+
+                // Validate Input
                 if (!domain) {
                     output.html('<p class="error">Please enter a valid domain name.</p>');
                     resultDiv.show();
                     return;
                 }
 
-                // Clear previous results and show loading state
+                // Show Loading State
                 output.html('<p class="loading">Resolving DNS records...</p>');
                 resultDiv.show();
 
-                // Fetch DNS records
+                // Fetch DNS Records
                 $.ajax({
                     url: `https://dns.google/resolve?name=${domain}&type=${recordType}`,
                     method: 'GET',
@@ -135,13 +179,27 @@
                         if (data.Answer) {
                             const records = data.Answer.map(record => `
                                 <div class="record">
-                                    <p><strong>TTL :</strong> ${record.TTL}</p>
+                                    <p><strong>TTL:</strong> ${record.TTL}</p>
                                     <p><strong>Record Value:</strong> ${record.data}</p>
                                 </div>
                             `).join('');
                             output.html(`<h5>DNS Records for <strong>${domain}</strong> (${recordType}):</h5>${records}`);
+                            resultDiv.show();
+
+                            // Animate Records
+                            const recordElements = document.querySelectorAll('.record');
+                            recordElements.forEach((record, index) => {
+                                new mojs.Html({
+                                    el: record,
+                                    y: { 30: 0 },
+                                    opacity: { 0: 1 },
+                                    duration: 500,
+                                    delay: index * 200,
+                                    easing: 'cubic.out',
+                                }).play();
+                            });
                         } else {
-                            output.html(`<p>No DNS records found for <strong>${domain}</strong> (${recordType}).</p>`);
+                            output.html(`<p class="error">No DNS records found for <strong>${domain}</strong> (${recordType}).</p>`);
                         }
                     },
                     error: function () {
