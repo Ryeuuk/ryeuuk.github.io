@@ -1,0 +1,80 @@
+
+.light-mode{
+	background-color: #3368ff;
+	
+}
+
+
+.container {
+    background-color: #3368ff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 110px;
+	margin-left : 0px;
+	margin-top : 0px;
+    height: 100%;
+    height: 100%;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Constantia", sans-serif; /* Add the font-family property */
+    margin-top: 0;
+}
+
+label, textarea, button {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+button {
+    background-color: #ff3333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+textarea {
+	
+    resize: vertical;
+}
+/* Rest of the CSS remains unchanged */
+
+.label-maroon {
+    color: maroon;
+}
+
+/* Add this class to the labels */
+
+/* Rest of the CSS remains unchanged */
+
+
+/* Rest of the CSS remains unchanged */
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #777;
+}
+/* Rest of the CSS remains unchanged */
+/* Dark Mode Styles */
+.dark-mode .container {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-mode h1 {
+    color: #ff8800; /* Change heading text color */
+}
+
+.dark-mode .label-maroon {
+    color: #ff4444; /* Change label text color */
+}
+
+/* Add more dark mode styles as needed */
+
