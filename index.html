@@ -1,1 +1,29 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Extractor Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-8">
+        <h1 class="text-4xl font-bold text-center text-blue-600 mb-6 animate-fade-in">IP Extractor Tool</h1>
+
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <textarea id="textInput" rows="8" class="w-full p-4 border rounded-md" placeholder="Paste your text here..."></textarea>
+            
+            <button id="extractButton" class="w-full bg-blue-500 text-white py-2 mt-4 rounded-lg hover:bg-blue-600 transition">
+                Extract IPs
+            </button>
+
+            <h2 class="text-2xl font-semibold text-gray-700 mt-6">Extracted IPs:</h2>
+            <div id="output" class="bg-gray-100 border rounded-md p-4 mt-2 min-h-[100px]"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
