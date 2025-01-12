@@ -6,8 +6,16 @@
     <meta name="description" content="Welcome to the GitHub repository index for RYUK Explore the latest projects and tools related to DNS and more.">
     <meta name="author" content="dnsexplorer">
     <title>RYUK GitHub Repositories</title>
+
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Link to Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <style>
+        /* General Body Styling */
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #1d1f21;
@@ -15,6 +23,8 @@
             margin: 0;
             padding: 0;
         }
+
+        /* Header Styling */
         header {
             background-color: #2d2f34;
             color: #00d4ff;
@@ -22,25 +32,33 @@
             text-align: center;
             border-bottom: 2px solid #00d4ff;
         }
+
         header h1 {
             font-size: 2.5rem;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            animation: fadeIn 2s ease-in-out;
         }
+
         header p {
             font-size: 1rem;
             font-style: italic;
             letter-spacing: 1px;
         }
+
+        /* Main Content Styling */
         main {
             max-width: 900px;
             margin: 2rem auto;
             padding: 1rem;
         }
+
         .repo-list {
             list-style: none;
             padding: 0;
         }
+
         .repo-item {
             background: #212427;
             padding: 1.5rem;
@@ -48,28 +66,37 @@
             border: 1px solid #444;
             border-radius: 8px;
             transition: background-color 0.3s ease-in-out;
+            animation: slideInFromBottom 1s ease-out;
         }
+
         .repo-item:hover {
             background: #303439;
         }
+
         .repo-item h2 {
             margin: 0 0 0.5rem;
             font-size: 1.75rem;
             color: #00d4ff;
             text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
         }
+
         .repo-item p {
             margin: 0.5rem 0;
             color: #b3b3b3;
         }
+
         a {
             color: #00d4ff;
             text-decoration: none;
             transition: color 0.2s ease;
         }
+
         a:hover {
             color: #ff8c00;
         }
+
+        /* Footer Styling */
         footer {
             text-align: center;
             padding: 1rem;
@@ -77,22 +104,43 @@
             color: #00d4ff;
             margin-top: 2rem;
         }
+
+        /* Animation Definitions */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromBottom {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
+    <header class="animate__animated animate__fadeIn">
         <h1>dnsexplorer GitHub Repositories</h1>
         <p>Explore the latest projects and tools for DNS enthusiasts and developers.</p>
     </header>
 
     <main>
-        <h2 style="color: #00d4ff; text-transform: uppercase;">Repositories</h2>
+        <h2 class="animate__animated animate__fadeIn" style="color: #00d4ff; text-transform: uppercase;">Repositories</h2>
         <ul class="repo-list">
-            <li class="repo-item">
+            <li class="repo-item animate__animated animate__fadeInUp">
                 <h2><a href="https://ryeuuk.github.io/ipv4extractor/">Repository 1 Name</a></h2>
                 <p>Description of repository 1. Brief overview of its purpose or features.</p>
             </li>
-            <li class="repo-item">
+            <li class="repo-item animate__animated animate__fadeInUp">
                 <h2><a href="htt#">Repository 2 Name</a></h2>
                 <p>Description of repository 2. Mention key technologies or goals.</p>
             </li>
